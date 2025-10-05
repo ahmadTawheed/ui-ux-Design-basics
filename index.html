@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أساسيات التصميم - Ahmed Tawheed</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f43f5e;
+            --accent: #8b5cf6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+        
+        * {
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
+        }
+        
+        .section-padding {
+            padding: 80px 0;
+        }
+        
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+        }
+        
+        .quiz-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0e7ff;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-option.correct {
+            background-color: #dcfce7;
+            border-color: var(--success);
+            color: #065f46;
+        }
+        
+        .quiz-option.incorrect {
+            background-color: #fee2e2;
+            border-color: var(--secondary);
+            color: #991b1b;
+        }
+        
+        .quiz-option.answered {
+            pointer-events: none;
+        }
+        
+        .quiz-option .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .quiz-option.correct .icon {
+            opacity: 1;
+            color: var(--success);
+        }
+        
+        .quiz-option.incorrect .icon {
+            opacity: 1;
+            color: var(--secondary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .interactive-example {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .interactive-example:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .design-principle-card {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .ui-example {
+            transition: all 0.3s ease;
+        }
+        
+        .ui-example:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            right: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .floating-button {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            
+            .desktop-menu {
+                display: none;
+            }
+        }
+        
+        /* Interactive Demo Styles */
+        .demo-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-container:hover {
+            border-color: var(--primary);
+            background: #f1f5f9;
+        }
+        
+        .demo-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .demo-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .demo-button.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Result Badge Styles */
+        .result-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .badge-excellent {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-very-good {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-good {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-needs-work {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white font-bold text-xl">
+                        S
+                    </div>
+                    <h1 class="text-xl font-bold mr-3">Ahmed Tawheed</h1>
+                </div>
+                
+                <nav class="desktop-menu">
+                    <ul class="flex space-x-8 space-x-reverse">
+                        <li><a href="#intro" class="nav-link text-gray-700 hover:text-indigo-600">المقدمة</a></li>
+                        <li><a href="#principles" class="nav-link text-gray-700 hover:text-indigo-600">المبادئ</a></li>
+                        <li><a href="#examples" class="nav-link text-gray-700 hover:text-indigo-600">أمثلة</a></li>
+                        <li><a href="#ui-ux" class="nav-link text-gray-700 hover:text-indigo-600">UI/UX</a></li>
+                        <li><a href="#quiz" class="nav-link text-gray-700 hover:text-indigo-600">اختبار</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu text-gray-700 focus:outline-none" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden bg-white py-4 px-4 shadow-lg" id="mobile-menu">
+            <ul class="space-y-3">
+                <li><a href="#intro" class="block text-gray-700 hover:text-indigo-600 py-2">المقدمة</a></li>
+                <li><a href="#principles" class="block text-gray-700 hover:text-indigo-600 py-2">المبادئ</a></li>
+                <li><a href="#examples" class="block text-gray-700 hover:text-indigo-600 py-2">أمثلة</a></li>
+                <li><a href="#ui-ux" class="block text-gray-700 hover:text-indigo-600 py-2">UI/UX</a></li>
+                <li><a href="#quiz" class="block text-gray-700 hover:text-indigo-600 py-2">اختبار</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white section-padding">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">أساسيات التصميم</h1>
+                    <p class="text-xl mb-6">شرح مفصّل لأساسيات التصميم مع أمثلة تطبيقية في مجال UI/UX</p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#principles" class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+                            ابدأ التعلم
+                        </a>
+                        <a href="#quiz" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-indigo-600 transition">
+                            اختبر معلوماتك
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                            <i class="fas fa-paint-brush text-8xl"></i>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-yellow-400 flex items-center justify-center animate-bounce">
+                            <i class="fas fa-lightbulb text-2xl text-white"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-pink-500 flex items-center justify-center animate-bounce" style="animation-delay: 0.5s">
+                            <i class="fas fa-palette text-2xl text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">ما هو التصميم؟</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl card-shadow" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">التعريف</h3>
+                    <p class="mb-4">التصميم هو عملية ترتيب عناصر (صور، نصوص، ألوان، أشكال، مساحات) بهدف توصيل رسالة أو حل مشكلة أو خلق تجربة بصرية/وظيفية فعّالة.</p>
+                    <p>يعني مش بس يخلي الحاجة "حلوة" — كمان يخليها تفهم وتخدم المستخدم.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl card-shadow" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">فكرة بسيطة</h3>
+                    <p class="mb-4">التصميم هو لغة بصريّة — التصميم بيقول حاجة بدون كلام.</p>
+                    <div class="mt-6">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                            <p>تصميم = حل مشكلة + اتصالات بصرية</p>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                            <p>ممكن يكون تصميم جرافيك، تصميم منتجات، تصميم تجربة (UX)، أو تصميم واجهة (UI)</p>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 ml-2"></i>
+                            <p>مهمته: الوضوح، الجاذبية، الفاعلية</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-indigo-50 p-8 rounded-xl" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-4 text-center">لماذا نقوم بعمل تصميم؟</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    <div class="bg-white p-6 rounded-lg card-shadow hover-scale">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-comments text-indigo-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">التواصل</h4>
+                        <p>علشان نوصل رسالة بسرعة وفهم واضح</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg card-shadow hover-scale">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-compass text-indigo-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">التوجيه</h4>
+                        <p>نوجّه العين والسلوك — زي CTA واضح في صفحة ويب</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg card-shadow hover-scale">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-tools text-indigo-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">التحسين</h4>
+                        <p>نخلي واجهة أو منتج أسهل للاستخدام (Usability)</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg card-shadow hover-scale">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-id-card text-indigo-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">الهوية</h4>
+                        <p>نبني انطباع وسمعة (براندينج)</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg card-shadow hover-scale">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <i class="fas fa-shopping-cart text-indigo-600 text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">البيع/الإقناع</h4>
+                        <p>تصميم جيد يزيد من الثقة ويزيد التحويلات</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 bg-yellow-50 border-r-4 border-yellow-500 p-4 rounded">
+                    <p class="font-medium">بالعامية: يعني بدل ما تستخدم كلام طويل، التصميم يخلي اللي قدامك يفهم في ثانية ويعمل اللي أنت عايزه — يشترك، يشتري، يقرأ.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Principles Section -->
+    <section id="principles" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">المبادئ الأساسية للتصميم</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">هنا أهم مبادئ لازم كل مصمم يعرفها ويطبقها</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">1</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التوازن (Balance)</h3>
+                    </div>
+                    <p class="mb-3">توزيع العناصر بشكل يعطي إحساس بالثبات.</p>
+                    <p class="text-sm text-gray-600 mb-3">أنواعه: توازن متماثل (symmetrical) وتوازن غير متماثل (asymmetrical) وتوازن شعاعي (radial).</p>
+                    <p class="text-sm">تأثير: توازن جيد يدي شعور احترافية واستقرار.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التباين (Contrast)</h3>
+                    </div>
+                    <p class="mb-3">اختلاف واضح بين عناصر (لون، حجم، شكل) لجذب الانتباه.</p>
+                    <p class="text-sm">استخدامه: خلي العنوان أكبر أو أغمق علشان يبرز عن النص.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التسلسل البصري / الهرمية</h3>
+                    </div>
+                    <p class="mb-3">ترتيب العناصر حسب الأهمية بحيث العين تمر عليهم بالترتيب المرغوب.</p>
+                    <p class="text-sm">وسائل خلقه: الحجم، اللون، المساحة، الموضع.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">4</span>
+                        </div>
+                        <h3 class="text-xl font-bold">المحاذاة (Alignment)</h3>
+                    </div>
+                    <p class="mb-3">ترتيب العناصر بحيث تكون مرتبطة ببعضها في خطوط أو أعمدة.</p>
+                    <p class="text-sm">فوايده: يعطي ترتيب نظيف ويقوّي القراءة.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">5</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التكرار / الاتساق</h3>
+                    </div>
+                    <p class="mb-3">إعادة عناصر أو أنماط بشكل متكرر لبناء وحدة بصرية.</p>
+                    <p class="text-sm">فائدة: يسهل التعرف ويقوّي الهوية.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">6</span>
+                        </div>
+                        <h3 class="text-xl font-bold">القرب / التجمع</h3>
+                    </div>
+                    <p class="mb-3">وضع العناصر المتعلقة ببعضها قريبًا لتوضيح العلاقة بينها.</p>
+                    <p class="text-sm">مثال: عنوان ونص شرح تحتهما أقرب لبعض من أي عناصر أخرى.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">7</span>
+                        </div>
+                        <h3 class="text-xl font-bold">المساحة الفارغة</h3>
+                    </div>
+                    <p class="mb-3">المساحة الخاليّة حول العناصر — مش "مساحة ضايعة"، بل أداة تصميم.</p>
+                    <p class="text-sm">وظيفتها: تريح العين وتبرز العناصر المهمة.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="800">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">8</span>
+                        </div>
+                        <h3 class="text-xl font-bold">اللون والطباعة</h3>
+                    </div>
+                    <p class="mb-3">اختيار ألوان متناغمة وسهلة القراءة، وطباعة متناسقة حسب الشخصية.</p>
+                    <p class="text-sm">serif للرسمي، sans-serif للحديث.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card" data-aos="fade-up" data-aos-delay="900">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">9</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التناسب والمقياس</h3>
+                    </div>
+                    <p class="mb-3">حجم العناصر بالنسبة لبعضها لتحديد الأهمية.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl card-shadow design-principle-card md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center ml-3">
+                            <span class="text-indigo-600 font-bold">10</span>
+                        </div>
+                        <h3 class="text-xl font-bold">التناسق البصري</h3>
+                    </div>
+                    <p class="mb-3">تكرار إيقاعي للعناصر يبني نمط بصري مريح.</p>
+                </div>
+            </div>
+            
+            <!-- Interactive Demo Section -->
+            <div class="mt-16 bg-white rounded-xl card-shadow p-8" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-6 text-center">جرب بنفسك - أمثلة تفاعلية</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contrast Demo -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-indigo-700">تجربة التباين</h4>
+                        <div class="demo-container">
+                            <div id="contrast-demo" class="bg-white p-6 rounded-lg">
+                                <h5 class="text-2xl font-bold mb-2">عنوان رئيسي</h5>
+                                <p class="text-lg mb-4">عنوان فرعي</p>
+                                <p>نص عادي</p>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-button bg-indigo-600 text-white" onclick="changeContrast('high')">تباين عالي</button>
+                                <button class="demo-button bg-gray-600 text-white" onclick="changeContrast('medium')">تباين متوسط</button>
+                                <button class="demo-button bg-gray-400 text-white" onclick="changeContrast('low')">تباين منخفض</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Alignment Demo -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-indigo-700">تجربة المحاذاة</h4>
+                        <div class="demo-container">
+                            <div id="alignment-demo" class="bg-white p-6 rounded-lg">
+                                <h5 class="text-2xl font-bold mb-2">عنوان</h5>
+                                <p class="mb-4">هذا نص يمكنك تغيير محاذاته باستخدام الأزرار أدناه. المحاذاة الجيدة تجعل النص يبدو منظمًا وسهل القراءة.</p>
+                                <p>هذا فقرة أخرى تتبع نفس المحاذاة.</p>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-button bg-indigo-600 text-white" onclick="changeAlignment('right')">يمين</button>
+                                <button class="demo-button bg-gray-600 text-white" onclick="changeAlignment('center')">وسط</button>
+                                <button class="demo-button bg-gray-400 text-white" onclick="changeAlignment('left')">يسار</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Whitespace Demo -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-indigo-700">تجربة المساحة الفارغة</h4>
+                        <div class="demo-container">
+                            <div id="whitespace-demo" class="bg-white p-6 rounded-lg">
+                                <h5 class="text-xl font-bold mb-2">عنوان</h5>
+                                <p class="mb-2">هذا نص مع مسافة فارغة قليلة.</p>
+                                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg">زر</button>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-button bg-indigo-600 text-white" onclick="changeWhitespace('high')">مساحة عالية</button>
+                                <button class="demo-button bg-gray-600 text-white" onclick="changeWhitespace('medium')">مساحة متوسطة</button>
+                                <button class="demo-button bg-gray-400 text-white" onclick="changeWhitespace('low')">مساحة منخفضة</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hierarchy Demo -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-indigo-700">تجربة التسلسل البصري</h4>
+                        <div class="demo-container">
+                            <div id="hierarchy-demo" class="bg-white p-6 rounded-lg">
+                                <h5 class="text-xl font-bold mb-2">عنوان</h5>
+                                <p class="mb-2">نص عادي</p>
+                                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg">زر</button>
+                            </div>
+                            <div class="demo-controls">
+                                <button class="demo-button bg-indigo-600 text-white" onclick="changeHierarchy('title')">التركيز على العنوان</button>
+                                <button class="demo-button bg-gray-600 text-white" onclick="changeHierarchy('button')">التركيز على الزر</button>
+                                <button class="demo-button bg-gray-400 text-white" onclick="changeHierarchy('balanced')">متوازن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section id="examples" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">أمثلة توضيحية في التصميم</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+            </div>
+            
+            <div class="swiper mySwiper" data-aos="fade-up">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-4">مثال على التباين</h3>
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <div class="flex flex-col items-center">
+                                    <h4 class="text-4xl font-bold text-gray-800 mb-2">عنوان رئيسي</h4>
+                                    <p class="text-xl text-gray-600 mb-4">عنوان فرعي</p>
+                                    <p class="text-gray-500">نص عادي</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600">استخدام أحجام وألوان مختلفة لخلق تباين واضح بين العناصر</p>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-4">مثال على المحاذاة</h3>
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <div class="text-right">
+                                    <h4 class="text-2xl font-bold mb-2">عنوان</h4>
+                                    <p class="mb-4">هذا نص يتم محاذاته إلى اليمين. المحاذاة الجيدة تجعل النص يبدو منظمًا وسهل القراءة.</p>
+                                    <p>هذا فقرة أخرى تتبع نفس المحاذاة.</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600">محاذاة النصوص والعناصر تعطي إحساسًا بالتنظيم والاحترافية</p>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-4">مثال على القرب</h3>
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <div class="mb-6">
+                                    <h4 class="text-xl font-bold mb-2">القسم الأول</h4>
+                                    <p class="text-gray-600">هذا النص مرتبط بالعنوان أعلاه، لذلك وضعه قريبًا منه يوضح العلاقة بينهما.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">القسم الثاني</h4>
+                                    <p class="text-gray-600">هذا النص مرتبط بالعنوان الثاني، ووجود مسافة بين القسمين يوضح أنهما منفصلان.</p>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600">العناصر المتعلقة ببعضها يجب أن تكون قريبة من بعضها البعض</p>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-4">مثال على المساحة الفارغة</h3>
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <div class="bg-white p-8 rounded-lg shadow-sm">
+                                    <h4 class="text-xl font-bold mb-4">عنوان</h4>
+                                    <p class="mb-6">هناك مساحة كافية حول العناصر، مما يجعلها تبرز أكثر ويجعل التصميم يبدو نظيفًا ومنظمًا.</p>
+                                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg">زر</button>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600">المساحة الفارغة ليست مساحة ضائعة، بل أداة تصميم قوية</p>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-4">مثال على التكرار</h3>
+                            <div class="bg-gray-100 p-6 rounded-lg">
+                                <div class="flex justify-between mb-4">
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                </div>
+                                <div class="flex justify-between">
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                    <div class="w-16 h-16 bg-indigo-600 rounded-lg"></div>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-gray-600">تكرار العناصر يخلق إحساسًا بالوحدة والتناسق في التصميم</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UI/UX Section -->
+    <section id="ui-ux" class="section-padding bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">دور التصميم في مجال UI / UX</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">شرح تفصيلي ممل لدور مبادئ التصميم في مجال واجهات وتجربة المستخدم</p>
+            </div>
+            
+            <!-- UI vs UX -->
+            <div class="bg-white rounded-xl card-shadow p-8 mb-12" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-6 text-center">الفرق بين UI و UX باختصار</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-indigo-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-indigo-700">UX (User Experience)</h4>
+                        <p class="mb-4">تجربة المستخدم الشاملة — البحث، بنية المعلومات، تدفق المستخدم، سهولة الاستخدام، المشاعر الناتجة.</p>
+                        <div class="bg-white p-4 rounded border border-indigo-200">
+                            <p class="text-sm">بالعامية: UX بيخطط الرحلة</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-purple-700">UI (User Interface)</h4>
+                        <p class="mb-4">الواجهة البصرية — أزرار، ألوان، أيقونات، تخطيط الشاشة.</p>
+                        <div class="bg-white p-4 rounded border border-purple-200">
+                            <p class="text-sm">بالعامية: UI بيزين العربية اللي هتسافر بيها</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- UI/UX Examples -->
+            <div class="bg-white rounded-xl card-shadow p-8" data-aos="fade-up">
+                <h3 class="text-2xl font-bold mb-6 text-center">5 أمثلة توضيحية في UI/UX</h3>
+                
+                <div class="swiper uiSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-3">مثال 1: واجهة تسجيل دخول بسيطة</h4>
+                                <div class="bg-gray-100 p-6 rounded-lg">
+                                    <div class="max-w-xs mx-auto bg-white p-6 rounded-lg shadow-sm">
+                                        <h5 class="text-xl font-bold mb-4 text-center">تسجيل الدخول</h5>
+                                        <div class="mb-4">
+                                            <input type="text" placeholder="البريد الإلكتروني" class="w-full p-3 border border-gray-300 rounded-lg mb-3">
+                                            <input type="password" placeholder="كلمة المرور" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <button class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium">دخول</button>
+                                        <p class="text-center mt-4 text-sm text-gray-600">ليس لديك حساب؟ <a href="#" class="text-indigo-600">سجل الآن</a></p>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-gray-600">تصميم بسيط وواضح يركز على هدف واحد فقط</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-3">مثال 2: بطاقة منتج</h4>
+                                <div class="bg-gray-100 p-6 rounded-lg">
+                                    <div class="max-w-xs mx-auto bg-white rounded-lg shadow-sm overflow-hidden">
+                                        <div class="h-48 bg-gray-300"></div>
+                                        <div class="p-4">
+                                            <h5 class="font-bold text-lg mb-2">اسم المنتج</h5>
+                                            <p class="text-gray-600 text-sm mb-4">وصف قصير للمنتج يوضح مميزاته الأساسية</p>
+                                            <div class="flex justify-between items-center">
+                                                <span class="font-bold text-lg">199 ريال</span>
+                                                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg">أضف للسلة</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-gray-600">تسلسل بصري واضح من الصورة إلى التفاصيل إلى السعر وزر الشراء</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-3">مثال 3: نموذج اتصال</h4>
+                                <div class="bg-gray-100 p-6 rounded-lg">
+                                    <div class="max-w-xs mx-auto bg-white p-6 rounded-lg shadow-sm">
+                                        <h5 class="text-xl font-bold mb-4 text-center">تواصل معنا</h5>
+                                        <div class="mb-3">
+                                            <input type="text" placeholder="الاسم" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="email" placeholder="البريد الإلكتروني" class="w-full p-3 border border-gray-300 rounded-lg">
+                                        </div>
+                                        <div class="mb-4">
+                                            <textarea placeholder="رسالتك" rows="4" class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+                                        </div>
+                                        <button class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium">إرسال</button>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-gray-600">تنظيم واضح للمعلومات مع مسافات فارغة كافية</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-3">مثال 4: قائمة تنقل</h4>
+                                <div class="bg-gray-100 p-6 rounded-lg">
+                                    <div class="max-w-xs mx-auto bg-white rounded-lg shadow-sm">
+                                        <div class="p-4 border-b border-gray-200">
+                                            <h5 class="font-bold">القائمة</h5>
+                                        </div>
+                                        <div class="divide-y divide-gray-200">
+                                            <a href="#" class="block p-4 hover:bg-gray-50">الرئيسية</a>
+                                            <a href="#" class="block p-4 hover:bg-gray-50">منتجاتنا</a>
+                                            <a href="#" class="block p-4 hover:bg-gray-50">خدماتنا</a>
+                                            <a href="#" class="block p-4 hover:bg-gray-50">من نحن</a>
+                                            <a href="#" class="block p-4 hover:bg-gray-50">تواصل معنا</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-gray-600">قائمة بسيطة مع عناصر متساوية الأهمية وتفاعل واضح</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-3">مثال 5: صفحة خطأ 404</h4>
+                                <div class="bg-gray-100 p-6 rounded-lg">
+                                    <div class="max-w-xs mx-auto bg-white p-8 rounded-lg shadow-sm text-center">
+                                        <div class="text-6xl font-bold text-indigo-600 mb-4">404</div>
+                                        <h5 class="text-xl font-bold mb-2">صفحة غير موجودة</h5>
+                                        <p class="text-gray-600 mb-6">عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها</p>
+                                        <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium">العودة للرئيسية</button>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-gray-600">تصميم واضح يوضح المشكلة ويقدم حلاً</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="section-padding bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold mb-4">اختبار أساسيات التصميم</h2>
+                <div class="w-24 h-1 bg-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">10 أسئلة اختيار من متعدد — للتأكد من الفهم</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto bg-white rounded-xl card-shadow p-8" data-aos="fade-up">
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium">السؤال <span id="current-question">1</span> من 10</span>
+                        <span class="text-sm font-medium">النتيجة: <span id="score">0</span>/10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress" style="width: 10%"></div>
+                    </div>
+                </div>
+                
+                <div id="quiz-container">
+                    <!-- Question 1 -->
+                    <div class="question active" id="question-1">
+                        <h3 class="text-xl font-bold mb-6">أي عنصر من التالي يساعد أكثر في إنشاء التسلسل البصري؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="a" data-correct="false">
+                                أ) استخدام نفس الحجم لكل العناصر
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="b" data-correct="true">
+                                ب) تباين الألوان والحجم والترتيب
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="c" data-correct="false">
+                                ج) استخدام صور كثيرة بدون نص
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="1" data-option="d" data-correct="false">
+                                د) إزالة المساحة الفارغة حول العناصر
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-1">
+                            <p class="font-medium">شرح:</p>
+                            <p>التسلسل البصري يُبنى بتغيير الحجم/اللون/الموقع.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium disabled:opacity-50" id="prev-1" onclick="prevQuestion()" disabled>
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-1" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="question hidden" id="question-2">
+                        <h3 class="text-xl font-bold mb-6">ما معنى المحاذاة في التصميم؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="a" data-correct="false">
+                                أ) اختيار ألوان متشابهة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="b" data-correct="true">
+                                ب) وضع العناصر في خطوط أو أعمدة منظمة
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="c" data-correct="false">
+                                ج) جعل كل النص أكبر حجمًا
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="2" data-option="d" data-correct="false">
+                                د) تكرار نفس العنصر
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-2">
+                            <p class="font-medium">شرح:</p>
+                            <p>المحاذاة تعني ترتيب العناصر على محاور واضحة.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-2" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-2" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="question hidden" id="question-3">
+                        <h3 class="text-xl font-bold mb-6">أي من التالي ليس مبدأ تصميم؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="a" data-correct="false">
+                                أ) التباين
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="b" data-correct="false">
+                                ب) القرب
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="c" data-correct="true">
+                                ج) التضاعف
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="3" data-option="d" data-correct="false">
+                                د) التناسق
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-3">
+                            <p class="font-medium">شرح:</p>
+                            <p>التضاعف مصطلح عام مش من مبادئ التصميم التقليدية.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-3" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-3" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="question hidden" id="question-4">
+                        <h3 class="text-xl font-bold mb-6">ما أفضل ممارسة لزر CTA في صفحة منتج؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="a" data-correct="false">
+                                أ) جعله بنفس لون النص العادي
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="b" data-correct="true">
+                                ب) جعله بارزًا وبحجم ملحوظ
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="c" data-correct="false">
+                                ج) وضعه في الزاوية السفلى اليسرى دائمًا
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="4" data-option="d" data-correct="false">
+                                د) استخدام خط صغير جدًا لتقليل المساحة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-4">
+                            <p class="font-medium">شرح:</p>
+                            <p>CTA لازم يبرز بصريًا ويكون واضحًا.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-4" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-4" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="question hidden" id="question-5">
+                        <h3 class="text-xl font-bold mb-6">أي نمط قراءة شائع يُستخدم في صفحات المحتوى النصي الطويل؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="a" data-correct="false">
+                                أ) Z-pattern
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="b" data-correct="true">
+                                ب) F-pattern
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="c" data-correct="false">
+                                ج) O-pattern
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="5" data-option="d" data-correct="false">
+                                د) X-pattern
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-5">
+                            <p class="font-medium">شرح:</p>
+                            <p>المستخدمين غالبًا يقرأون صفحات الويب الطويلة على شكل حرف F.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-5" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-5" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6 -->
+                    <div class="question hidden" id="question-6">
+                        <h3 class="text-xl font-bold mb-6">لماذا نستخدم "المساحة الفارغة" (white space)؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="a" data-correct="false">
+                                أ) لأنها مضيعة للمساحة فقط
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="b" data-correct="true">
+                                ب) لتهدئة العين وإبراز العناصر المهمة
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="c" data-correct="false">
+                                ج) لتقليل عدد الألوان المطلوبة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="6" data-option="d" data-correct="false">
+                                د) لزيادة النصوص على الصفحة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-6">
+                            <p class="font-medium">شرح:</p>
+                            <p>المساحة الفارغة تحسّن قراءة وتركيز المستخدم.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-6" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-6" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="question hidden" id="question-7">
+                        <h3 class="text-xl font-bold mb-6">أي العبارات التالية تصف "التناسق"؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="a" data-correct="false">
+                                أ) تغيير كل صفحة عن الأخرى لتبدو مختلفة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="b" data-correct="true">
+                                ب) استخدام نفس أنماط الأزرار والخطوط عبر الواجهة
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="c" data-correct="false">
+                                ج) حذف العناوين الفرعية
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="7" data-option="d" data-correct="false">
+                                د) استخدام ألوان عشوائية لكل زر
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-7">
+                            <p class="font-medium">شرح:</p>
+                            <p>التناسق يبني علامة مرئية موحدة ويسهل الاستخدام.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-7" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-7" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="question hidden" id="question-8">
+                        <h3 class="text-xl font-bold mb-6">ما الفائدة الأساسية لاختبار المستخدم (User Testing)؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="a" data-correct="false">
+                                أ) التأكد من أن التصميم جميل فقط
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="b" data-correct="true">
+                                ب) معرفة كيف يتفاعل المستخدمون فعليًا مع المنتج
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="c" data-correct="false">
+                                ج) زيادة عدد الألوان في الواجهة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="8" data-option="d" data-correct="false">
+                                د) وضع جميع الميزات في صفحة واحدة
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-8">
+                            <p class="font-medium">شرح:</p>
+                            <p>الاختبارات تعطي بيانات عن سلوك المستخدم وعيوب التصميم.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-8" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-8" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9 -->
+                    <div class="question hidden" id="question-9">
+                        <h3 class="text-xl font-bold mb-6">ما أفضل طريقة لعرض قائمة من العناصر المتساوية الأهمية؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="a" data-correct="false">
+                                أ) جعل عنصر واحد أكبر كثيرًا
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="b" data-correct="true">
+                                ب) استخدام شبكة أو قائمة متساوية دون تفضيل
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="c" data-correct="false">
+                                ج) وضع كل عنصر في موضع عشوائي
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="9" data-option="d" data-correct="false">
+                                د) كتابة النص بحجم صغير جدًا
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-9">
+                            <p class="font-medium">شرح:</p>
+                            <p>عند تساوي الأهمية نعرضهم بشكل متساوي بصريًا.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-9" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-9" onclick="nextQuestion()">
+                                التالي
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10 -->
+                    <div class="question hidden" id="question-10">
+                        <h3 class="text-xl font-bold mb-6">أي من التالي يُعد جزءًا من واجهة المستخدم (UI) وليس تجربة المستخدم (UX) بالدرجة الأولى؟</h3>
+                        <div class="space-y-3">
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="a" data-correct="false">
+                                أ) هيكلة التنقل (Navigation architecture)
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="b" data-correct="false">
+                                ب) اختبار قابلية الاستخدام (Usability testing)
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="c" data-correct="true">
+                                ج) اختيار ألوان الأزرار وأيقوناتها
+                                <i class="fas fa-check-circle icon"></i>
+                            </div>
+                            <div class="quiz-option border border-gray-300 rounded-lg p-4 cursor-pointer" data-question="10" data-option="d" data-correct="false">
+                                د) بحث المستخدم (User research)
+                                <i class="fas fa-times-circle icon"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg hidden" id="explanation-10">
+                            <p class="font-medium">شرح:</p>
+                            <p>اختيار الألوان والأيقونات عنصر بصري (UI)، بينما الباقي مرتبط بـ UX.</p>
+                        </div>
+                        <div class="flex justify-between mt-6">
+                            <button class="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium" id="prev-10" onclick="prevQuestion()">
+                                السابق
+                            </button>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium hidden" id="next-10" onclick="showResults()">
+                                عرض النتائج
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Results -->
+                    <div class="question hidden" id="results">
+                        <h3 class="text-2xl font-bold mb-6 text-center">نتيجة الاختبار</h3>
+                        <div class="text-center mb-8">
+                            <div class="inline-block relative">
+                                <div class="w-48 h-48 rounded-full border-8 border-gray-200 flex items-center justify-center">
+                                    <span class="text-4xl font-bold" id="final-score">0/10</span>
+                                </div>
+                                <div class="absolute top-0 right-0 w-48 h-48 rounded-full border-8 border-transparent border-t-indigo-600 border-r-indigo-600 transform -rotate-45" id="score-circle"></div>
+                            </div>
+                        </div>
+                        <div class="text-center mb-8">
+                            <div id="result-badge" class="result-badge mb-4"></div>
+                            <p class="text-xl mb-4" id="result-message">رسالة النتيجة</p>
+                            <div class="bg-gray-50 p-4 rounded-lg mb-6" id="result-details"></div>
+                            <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium" onclick="restartQuiz()">إعادة الاختبار</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Page Button -->
+    <div class="text-center py-12 bg-white">
+        <a href="./w2.html" class="inline-flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition">
+            التالي
+            <i class="fas fa-arrow-left mr-2"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-indigo-600 font-bold text-xl mr-3">
+                            S
+                        </div>
+                        <h3 class="text-xl font-bold">Ahmed Tawheed</h3>
+                    </div>
+                    <p class="mt-2 text-gray-400">دورة أساسيات التصميم</p>
+                </div>
+                
+                <div class="flex space-x-6 space-x-reverse">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 جميع الحقوق محفوظة. تصميم وتطوير: Ahmed Tawheed</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Button -->
+    <div class="floating-button" id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Initialize Swiper
+        const swiper = new Swiper('.mySwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        const uiSwiper = new Swiper('.uiSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                },
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollToTopButton = document.getElementById('scroll-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopButton.style.display = 'flex';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+        
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Interactive Demo Functions
+        function changeContrast(level) {
+            const demo = document.getElementById('contrast-demo');
+            const buttons = demo.parentElement.querySelectorAll('.demo-button');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            const title = demo.querySelector('h5');
+            const subtitle = demo.querySelector('p:nth-child(2)');
+            const text = demo.querySelector('p:nth-child(3)');
+            
+            if (level === 'high') {
+                title.className = 'text-3xl font-bold mb-4 text-gray-900';
+                subtitle.className = 'text-xl mb-4 text-gray-700';
+                text.className = 'text-gray-600';
+            } else if (level === 'medium') {
+                title.className = 'text-2xl font-bold mb-3 text-gray-800';
+                subtitle.className = 'text-lg mb-3 text-gray-600';
+                text.className = 'text-gray-500';
+            } else {
+                title.className = 'text-xl font-bold mb-2 text-gray-700';
+                subtitle.className = 'text-base mb-2 text-gray-600';
+                text.className = 'text-gray-500';
+            }
+        }
+
+        function changeAlignment(align) {
+            const demo = document.getElementById('alignment-demo');
+            const buttons = demo.parentElement.querySelectorAll('.demo-button');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            demo.style.textAlign = align;
+        }
+
+        function changeWhitespace(level) {
+            const demo = document.getElementById('whitespace-demo');
+            const buttons = demo.parentElement.querySelectorAll('.demo-button');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            const title = demo.querySelector('h5');
+            const text = demo.querySelector('p');
+            const button = demo.querySelector('button');
+            
+            if (level === 'high') {
+                title.className = 'text-xl font-bold mb-6';
+                text.className = 'mb-6';
+                button.className = 'bg-indigo-600 text-white px-6 py-3 rounded-lg font-medium';
+            } else if (level === 'medium') {
+                title.className = 'text-xl font-bold mb-4';
+                text.className = 'mb-4';
+                button.className = 'bg-indigo-600 text-white px-4 py-2 rounded-lg';
+            } else {
+                title.className = 'text-xl font-bold mb-1';
+                text.className = 'mb-1';
+                button.className = 'bg-indigo-600 text-white px-3 py-1 rounded-lg text-sm';
+            }
+        }
+
+        function changeHierarchy(focus) {
+            const demo = document.getElementById('hierarchy-demo');
+            const buttons = demo.parentElement.querySelectorAll('.demo-button');
+            
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            const title = demo.querySelector('h5');
+            const text = demo.querySelector('p');
+            const button = demo.querySelector('button');
+            
+            if (focus === 'title') {
+                title.className = 'text-3xl font-bold mb-4 text-indigo-700';
+                text.className = 'mb-4 text-gray-600';
+                button.className = 'bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm';
+            } else if (focus === 'button') {
+                title.className = 'text-lg font-bold mb-2 text-gray-700';
+                text.className = 'mb-2 text-gray-600';
+                button.className = 'bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold text-lg shadow-lg transform scale-110';
+            } else {
+                title.className = 'text-xl font-bold mb-2 text-gray-800';
+                text.className = 'mb-2 text-gray-600';
+                button.className = 'bg-indigo-600 text-white px-4 py-2 rounded-lg';
+            }
+        }
+
+        // Quiz Functionality
+        let currentQuestion = 1;
+        let score = 0;
+        const totalQuestions = 10;
+        const answeredQuestions = new Set();
+
+        // Add event listeners to quiz options
+        document.addEventListener('DOMContentLoaded', function() {
+            const quizOptions = document.querySelectorAll('.quiz-option');
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionNum = this.getAttribute('data-question');
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    
+                    if (!answeredQuestions.has(questionNum)) {
+                        checkAnswer(questionNum, isCorrect);
+                    }
+                });
+            });
+        });
+
+        function checkAnswer(questionNum, isCorrect) {
+            const options = document.querySelectorAll(`#question-${questionNum} .quiz-option`);
+            const explanation = document.getElementById(`explanation-${questionNum}`);
+            const nextButton = document.getElementById(`next-${questionNum}`);
+            
+            // Mark question as answered
+            answeredQuestions.add(questionNum);
+            
+            // Disable all options
+            options.forEach(option => {
+                option.classList.add('answered');
+            });
+            
+            // Mark selected option
+            const selectedOption = Array.from(options).find(option => 
+                option.getAttribute('data-question') === questionNum
+            );
+            
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+                score++;
+                document.getElementById('score').textContent = score;
+            } else {
+                selectedOption.classList.add('incorrect');
+                
+                // Find and mark correct option
+                options.forEach(option => {
+                    if (option.getAttribute('data-correct') === 'true') {
+                        option.classList.add('correct');
+                    }
+                });
+            }
+            
+            // Show explanation and next button
+            explanation.classList.remove('hidden');
+            nextButton.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            currentQuestion++;
+            document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+            document.getElementById('current-question').textContent = currentQuestion;
+            
+            // Update progress bar
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+
+        function prevQuestion() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            currentQuestion--;
+            document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+            document.getElementById('current-question').textContent = currentQuestion;
+            
+            // Update progress bar
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById(`prev-${currentQuestion}`);
+            const nextButton = document.getElementById(`next-${currentQuestion}`);
+            
+            // Disable/enable previous button
+            if (currentQuestion === 1) {
+                prevButton.disabled = true;
+                prevButton.classList.add('disabled:opacity-50');
+            } else {
+                prevButton.disabled = false;
+                prevButton.classList.remove('disabled:opacity-50');
+            }
+            
+            // Change next button text for last question
+            if (currentQuestion === totalQuestions) {
+                nextButton.textContent = 'عرض النتائج';
+            } else {
+                nextButton.textContent = 'التالي';
+            }
+        }
+
+        function showResults() {
+            document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            
+            // Update final score
+            document.getElementById('final-score').textContent = `${score}/${totalQuestions}`;
+            
+            // Update score circle
+            const percentage = (score / totalQuestions) * 100;
+            const circle = document.getElementById('score-circle');
+            const rotation = (percentage / 100) * 360;
+            circle.style.transform = `rotate(${rotation - 45}deg)`;
+            
+            // Update result badge and message
+            let badgeClass = '';
+            let badgeText = '';
+            let message = '';
+            let details = '';
+            
+            if (score >= 9) {
+                badgeClass = 'badge-excellent';
+                badgeText = 'ممتاز';
+                message = 'لقد أتقنت أساسيات التصميم!';
+                details = 'أنت تمتلك فهمًا عميقًا لمبادئ التصميم الأساسية وتطبيقاتها. استمر في التطوير.';
+            } else if (score >= 7) {
+                badgeClass = 'badge-very-good';
+                badgeText = 'جيد جدًا';
+                message = 'لديك فهم قوي لأساسيات التصميم.';
+                details = 'أنت تمتلك معرفة جيدة بمبادئ التصميم. ركز على تحسين النقاط التي لم تكن دقيقة فيها.';
+            } else if (score >= 5) {
+                badgeClass = 'badge-good';
+                badgeText = 'جيد';
+                message = 'يمكنك تحسين معرفتك بأساسيات التصميم.';
+                details = 'لديك فهم أساسي لمبادئ التصميم. ننصحك بمراجعة المواد والممارسة أكثر.';
+            } else {
+                badgeClass = 'badge-needs-work';
+                badgeText = 'يحتاج للمزيد من التعلم';
+                message = 'تحتاج إلى المزيد من الدراسة حول أساسيات التصميم.';
+                details = 'ننصحك بإعادة قراءة المواد والممارسة العملية للمبادئ الأساسية.';
+            }
+            
+            const badgeElement = document.getElementById('result-badge');
+            badgeElement.className = `result-badge ${badgeClass}`;
+            badgeElement.textContent = badgeText;
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('result-details').textContent = details;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 1;
+            score = 0;
+            answeredQuestions.clear();
+            document.getElementById('score').textContent = score;
+            document.getElementById('current-question').textContent = currentQuestion;
+            document.getElementById('progress').style.width = '10%';
+            
+            // Hide results and show first question
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('question-1').classList.remove('hidden');
+            
+            // Reset all questions
+            for (let i = 1; i <= totalQuestions; i++) {
+                const options = document.querySelectorAll(`#question-${i} .quiz-option`);
+                const explanation = document.getElementById(`explanation-${i}`);
+                const nextButton = document.getElementById(`next-${i}`);
+                
+                options.forEach(option => {
+                    option.classList.remove('correct', 'incorrect', 'answered');
+                });
+                
+                explanation.classList.add('hidden');
+                nextButton.classList.add('hidden');
+            }
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+    </script>
+</body>
+</html>
